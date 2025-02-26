@@ -9,6 +9,8 @@ namespace TradingCardManager
     public class CollectionHelper
     {
         private DatabaseHelper dbHelper;
+        private DateTime lastLoadTime = DateTime.MinValue;
+        private string lastLoadedFile = string.Empty;
 
         public CollectionHelper(DatabaseHelper dbHelper)
         {
@@ -19,8 +21,16 @@ namespace TradingCardManager
         {
             try
             {
+                // Update the last modified timestamp
+                collection.LastModified = DateTime.Now;
+
                 string jsonString = JsonSerializer.Serialize(collection, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(filePath, jsonString);
+
+                // Update our tracking variables
+                lastLoadTime = collection.LastModified;
+                lastLoadedFile = filePath;
+
                 return true;
             }
             catch (Exception ex)
@@ -36,8 +46,24 @@ namespace TradingCardManager
             {
                 if (File.Exists(filePath))
                 {
-                    string jsonString = File.ReadAllText(filePath);
-                    return JsonSerializer.Deserialize<Collection>(jsonString);
+                    // Check if we need to reload the file
+                    FileInfo fileInfo = new FileInfo(filePath);
+                    if (fileInfo.LastWriteTime > lastLoadTime || filePath != lastLoadedFile)
+                    {
+                        string jsonString = File.ReadAllText(filePath);
+                        Collection loadedCollection = JsonSerializer.Deserialize<Collection>(jsonString);
+
+                        // Update tracking variables
+                        lastLoadTime = fileInfo.LastWriteTime;
+                        lastLoadedFile = filePath;
+
+                        return loadedCollection;
+                    }
+                    else
+                    {
+                        // File hasn't changed, can safely return the current collection
+                        return new Collection(); // This will actually be replaced by the caller's current collection
+                    }
                 }
                 return new Collection();
             }
@@ -62,7 +88,8 @@ namespace TradingCardManager
                 }
             }
 
-            return cards;
+            // Sort cards by name for easier browsing
+            return cards.OrderBy(c => c.Name).ToList();
         }
 
         public bool AddCardToCollection(Collection collection, string cardId, int quantity = 1)
