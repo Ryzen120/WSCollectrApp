@@ -129,15 +129,23 @@ namespace TradingCardManager
         public MainForm()
         {
             InitializeComponent();
-            string dbPath = Path.Combine(Application.StartupPath, "WSCards.db");
-            dbHelper = new DatabaseHelper(dbPath);
+
+            // Set default database path to user's profile folder
+            string userProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string defaultDbPath = Path.Combine(userProfilePath, "WSCards.db");
+
+            // Initialize database helper with default path
+            dbHelper = new DatabaseHelper(defaultDbPath);
             collectionHelper = new CollectionHelper(dbHelper);
             currentCollection = new Collection();
             currentSearchResults = new List<Card>();
 
-            // Set the default collection path in Documents folder
+            // Set default collection path in user's Documents folder
             string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             currentCollectionPath = Path.Combine(documentsPath, "CardCollection.json");
+
+            // Update window title to show current database path
+            this.Text = $"Trading Card Manager - {defaultDbPath}";
 
             // Try to load existing collection
             if (File.Exists(currentCollectionPath))
@@ -227,6 +235,7 @@ namespace TradingCardManager
             this.saveCollectionAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabSearch.SuspendLayout();
             this.pnlSearch.SuspendLayout();
@@ -247,11 +256,11 @@ namespace TradingCardManager
             this.tabControl.Controls.Add(this.tabSearch);
             this.tabControl.Controls.Add(this.tabCollection);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.Location = new System.Drawing.Point(0, 33);
+            this.tabControl.Location = new System.Drawing.Point(0, 36);
             this.tabControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(2304, 1109);
+            this.tabControl.Size = new System.Drawing.Size(2304, 1106);
             this.tabControl.TabIndex = 0;
             this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             // 
@@ -265,7 +274,7 @@ namespace TradingCardManager
             this.tabSearch.Location = new System.Drawing.Point(4, 29);
             this.tabSearch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabSearch.Name = "tabSearch";
-            this.tabSearch.Size = new System.Drawing.Size(2296, 1076);
+            this.tabSearch.Size = new System.Drawing.Size(2296, 1073);
             this.tabSearch.TabIndex = 0;
             this.tabSearch.Text = "Search Cards";
             // 
@@ -284,7 +293,7 @@ namespace TradingCardManager
             this.lvSearchResults.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lvSearchResults.MultiSelect = false;
             this.lvSearchResults.Name = "lvSearchResults";
-            this.lvSearchResults.Size = new System.Drawing.Size(1621, 954);
+            this.lvSearchResults.Size = new System.Drawing.Size(1621, 951);
             this.lvSearchResults.TabIndex = 3;
             this.lvSearchResults.UseCompatibleStateImageBehavior = false;
             this.lvSearchResults.View = System.Windows.Forms.View.Details;
@@ -404,7 +413,7 @@ namespace TradingCardManager
             this.pnlPagination.Controls.Add(this.btnNextPage);
             this.pnlPagination.Controls.Add(this.lblPageInfo);
             this.pnlPagination.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlPagination.Location = new System.Drawing.Point(300, 1031);
+            this.pnlPagination.Location = new System.Drawing.Point(300, 1028);
             this.pnlPagination.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlPagination.Name = "pnlPagination";
             this.pnlPagination.Size = new System.Drawing.Size(1621, 45);
@@ -455,6 +464,7 @@ namespace TradingCardManager
             // pnlSearchFilters
             // 
             this.pnlSearchFilters.AutoScroll = true;
+            this.pnlSearchFilters.Controls.Add(this.button1);
             this.pnlSearchFilters.Controls.Add(this.lblExpansion);
             this.pnlSearchFilters.Controls.Add(this.cboExpansion);
             this.pnlSearchFilters.Controls.Add(this.lblColor);
@@ -477,7 +487,7 @@ namespace TradingCardManager
             this.pnlSearchFilters.Location = new System.Drawing.Point(0, 0);
             this.pnlSearchFilters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlSearchFilters.Name = "pnlSearchFilters";
-            this.pnlSearchFilters.Size = new System.Drawing.Size(300, 1076);
+            this.pnlSearchFilters.Size = new System.Drawing.Size(300, 1073);
             this.pnlSearchFilters.TabIndex = 6;
             // 
             // lblExpansion
@@ -672,7 +682,7 @@ namespace TradingCardManager
             this.pnlCardDetail.Location = new System.Drawing.Point(1921, 0);
             this.pnlCardDetail.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlCardDetail.Name = "pnlCardDetail";
-            this.pnlCardDetail.Size = new System.Drawing.Size(375, 1076);
+            this.pnlCardDetail.Size = new System.Drawing.Size(375, 1073);
             this.pnlCardDetail.TabIndex = 7;
             // 
             // btnAddToCollection
@@ -716,7 +726,7 @@ namespace TradingCardManager
             this.tabCollection.Location = new System.Drawing.Point(4, 29);
             this.tabCollection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabCollection.Name = "tabCollection";
-            this.tabCollection.Size = new System.Drawing.Size(2296, 1074);
+            this.tabCollection.Size = new System.Drawing.Size(2296, 1076);
             this.tabCollection.TabIndex = 1;
             this.tabCollection.Text = "My Collection";
             // 
@@ -735,7 +745,7 @@ namespace TradingCardManager
             this.lvCollection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lvCollection.MultiSelect = false;
             this.lvCollection.Name = "lvCollection";
-            this.lvCollection.Size = new System.Drawing.Size(1645, 997);
+            this.lvCollection.Size = new System.Drawing.Size(1645, 999);
             this.lvCollection.TabIndex = 6;
             this.lvCollection.UseCompatibleStateImageBehavior = false;
             this.lvCollection.View = System.Windows.Forms.View.Details;
@@ -836,7 +846,7 @@ namespace TradingCardManager
             this.pnlCollectionFilters.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlCollectionFilters.Location = new System.Drawing.Point(0, 0);
             this.pnlCollectionFilters.Name = "pnlCollectionFilters";
-            this.pnlCollectionFilters.Size = new System.Drawing.Size(276, 1074);
+            this.pnlCollectionFilters.Size = new System.Drawing.Size(276, 1076);
             this.pnlCollectionFilters.TabIndex = 9;
             // 
             // lblCollectionExpansion
@@ -941,7 +951,7 @@ namespace TradingCardManager
             this.pnlCollectionDetail.Location = new System.Drawing.Point(1921, 0);
             this.pnlCollectionDetail.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlCollectionDetail.Name = "pnlCollectionDetail";
-            this.pnlCollectionDetail.Size = new System.Drawing.Size(375, 1074);
+            this.pnlCollectionDetail.Size = new System.Drawing.Size(375, 1076);
             this.pnlCollectionDetail.TabIndex = 8;
             // 
             // btnRemoveFromCollection
@@ -984,7 +994,7 @@ namespace TradingCardManager
             this.fileToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(2304, 33);
+            this.menuStrip.Size = new System.Drawing.Size(2304, 36);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -998,7 +1008,7 @@ namespace TradingCardManager
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 30);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // newCollectionToolStripMenuItem
@@ -1043,6 +1053,16 @@ namespace TradingCardManager
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(306, 34);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(8, 1009);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(263, 54);
+            this.button1.TabIndex = 18;
+            this.button1.Text = "Load Database";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainForm
             // 
@@ -1089,16 +1109,32 @@ namespace TradingCardManager
             // Check database connection
             if (!dbHelper.CheckConnection())
             {
-                MessageBox.Show("Could not connect to the database. Please make sure the WSCards.db file is in the application directory.",
-                    "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                // Database not found in default location, prompt to load one
+                DialogResult result = MessageBox.Show(
+                    "Database not found in the default location. Would you like to select a database file?",
+                    "Database Not Found",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    // Get user profile path to start the file dialog there
+                    string userProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                    LoadDatabase(userProfilePath);
+                }
+
+                // Disable search-related controls if still no valid database
+                if (!dbHelper.CheckConnection())
+                {
+                    tabSearch.Enabled = false;
+                }
             }
-
-            // Load predefined values for filters
-            PopulateFilterDropdowns();
-
-            // Load collection if exists
-            RefreshCollectionView();
+            else
+            {
+                // Database found, load filters and collection
+                PopulateFilterDropdowns();
+                RefreshCollectionView();
+            }
         }
 
         private void btnApplyCollectionFilters_Click(object sender, EventArgs e)
@@ -2007,6 +2043,108 @@ namespace TradingCardManager
             }
 
             base.OnFormClosing(e);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // Check if we should save the current collection
+            if (currentCollection.Cards.Count > 0)
+            {
+                DialogResult saveResult = MessageBox.Show(
+                    "Do you want to save your current collection before changing the database?",
+                    "Save Collection",
+                    MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Question);
+
+                if (saveResult == DialogResult.Yes)
+                {
+                    SaveCollection();
+                }
+                else if (saveResult == DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+
+            // Get user profile path to start the file dialog there
+            string userProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            LoadDatabase(userProfilePath);
+        }
+
+        private void LoadDatabase(string initialPath = null)
+        {
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Filter = "SQLite Database Files (*.db;*.sqlite;*.sqlite3)|*.db;*.sqlite;*.sqlite3|All Files (*.*)|*.*";
+                dialog.Title = "Select Database File";
+                dialog.CheckFileExists = true;
+
+                // Set initial directory if provided
+                if (!string.IsNullOrEmpty(initialPath) && Directory.Exists(Path.GetDirectoryName(initialPath)))
+                {
+                    dialog.InitialDirectory = Path.GetDirectoryName(initialPath);
+                    if (File.Exists(initialPath))
+                    {
+                        dialog.FileName = Path.GetFileName(initialPath);
+                    }
+                }
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        Cursor = Cursors.WaitCursor;
+
+                        // Create a new database helper with the selected file
+                        string dbPath = dialog.FileName;
+                        DatabaseHelper newDbHelper = new DatabaseHelper(dbPath);
+
+                        // Test the connection
+                        if (!newDbHelper.CheckConnection())
+                        {
+                            MessageBox.Show(
+                                "The selected file is not a valid database or cannot be accessed.",
+                                "Database Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        // If connection is valid, replace the current database helper
+                        dbHelper = newDbHelper;
+
+                        // Update collection helper to use the new database helper
+                        collectionHelper = new CollectionHelper(dbHelper);
+
+                        // Enable the search tab if it was disabled
+                        tabSearch.Enabled = true;
+
+                        // Refresh the UI
+                        PopulateFilterDropdowns();
+
+                        // Update window title to show database name
+                        this.Text = $"Trading Card Manager - {dbPath}";
+
+                        MessageBox.Show(
+                            $"Successfully connected to database: {Path.GetFileName(dbPath)}",
+                            "Database Loaded",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(
+                            $"Error loading database: {ex.Message}",
+                            "Database Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        Cursor = Cursors.Default;
+                    }
+                }
+            }
         }
     }
 }
