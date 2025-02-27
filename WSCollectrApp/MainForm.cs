@@ -106,6 +106,26 @@ namespace TradingCardManager
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem exitToolStripMenuItem;
 
+        // Collection filter controls
+        private Panel pnlCollectionFilters;
+        private Label lblCollectionExpansion;
+        private ComboBox cboCollectionExpansion;
+        private Label lblCollectionColor;
+        private ComboBox cboCollectionColor;
+        private Label lblCollectionRarity;
+        private ComboBox cboCollectionRarity;
+        private Label lblCollectionCardType;
+        private ComboBox cboCollectionCardType;
+        private Button btnApplyCollectionFilters;
+        private Button btnClearCollectionFilters;
+
+        // Collection filtering variables
+        private List<Card> filteredCollectionCards = new List<Card>();
+        private string collectionExpansionFilter = "";
+        private string collectionColorFilter = "";
+        private string collectionRarityFilter = "";
+        private string collectionCardTypeFilter = "";
+
         public MainForm()
         {
             InitializeComponent();
@@ -187,6 +207,17 @@ namespace TradingCardManager
             this.btnRemoveFromCollection = new System.Windows.Forms.Button();
             this.lblCollectionDetail = new System.Windows.Forms.Label();
             this.pbCollectionImage = new System.Windows.Forms.PictureBox();
+            this.pnlCollectionFilters = new System.Windows.Forms.Panel();
+            this.lblCollectionExpansion = new System.Windows.Forms.Label();
+            this.cboCollectionExpansion = new System.Windows.Forms.ComboBox();
+            this.lblCollectionColor = new System.Windows.Forms.Label();
+            this.cboCollectionColor = new System.Windows.Forms.ComboBox();
+            this.lblCollectionRarity = new System.Windows.Forms.Label();
+            this.cboCollectionRarity = new System.Windows.Forms.ComboBox();
+            this.lblCollectionCardType = new System.Windows.Forms.Label();
+            this.cboCollectionCardType = new System.Windows.Forms.ComboBox();
+            this.btnApplyCollectionFilters = new System.Windows.Forms.Button();
+            this.btnClearCollectionFilters = new System.Windows.Forms.Button();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newCollectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -206,6 +237,7 @@ namespace TradingCardManager
             this.pnlCollectionActions.SuspendLayout();
             this.pnlCollectionDetail.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbCollectionImage)).BeginInit();
+            this.pnlCollectionFilters.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -335,9 +367,17 @@ namespace TradingCardManager
             "Expansion",
             "Color",
             "CardType",
+            "Rarity",
+            "Level",
+            "Power",
+            "Soul",
+            "Cost",
+            "Trigger",
             "Traits",
             "Effect",
-            "Illustrator"});
+            "Flavor",
+            "Illustrator",
+            "Side"});
             this.cboSearchField.Location = new System.Drawing.Point(510, 18);
             this.cboSearchField.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cboSearchField.Name = "cboSearchField";
@@ -648,7 +688,7 @@ namespace TradingCardManager
             // lblCardDetail
             // 
             this.lblCardDetail.AutoSize = true;
-            this.lblCardDetail.Location = new System.Drawing.Point(18, 553);
+            this.lblCardDetail.Location = new System.Drawing.Point(18, 545);
             this.lblCardDetail.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCardDetail.MaximumSize = new System.Drawing.Size(330, 0);
             this.lblCardDetail.Name = "lblCardDetail";
@@ -670,11 +710,12 @@ namespace TradingCardManager
             // 
             this.tabCollection.Controls.Add(this.lvCollection);
             this.tabCollection.Controls.Add(this.pnlCollectionActions);
+            this.tabCollection.Controls.Add(this.pnlCollectionFilters);
             this.tabCollection.Controls.Add(this.pnlCollectionDetail);
             this.tabCollection.Location = new System.Drawing.Point(4, 29);
             this.tabCollection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabCollection.Name = "tabCollection";
-            this.tabCollection.Size = new System.Drawing.Size(1468, 793);
+            this.tabCollection.Size = new System.Drawing.Size(2122, 1054);
             this.tabCollection.TabIndex = 1;
             this.tabCollection.Text = "My Collection";
             // 
@@ -689,11 +730,11 @@ namespace TradingCardManager
             this.lvCollection.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvCollection.FullRowSelect = true;
             this.lvCollection.HideSelection = false;
-            this.lvCollection.Location = new System.Drawing.Point(0, 77);
+            this.lvCollection.Location = new System.Drawing.Point(276, 77);
             this.lvCollection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lvCollection.MultiSelect = false;
             this.lvCollection.Name = "lvCollection";
-            this.lvCollection.Size = new System.Drawing.Size(1093, 716);
+            this.lvCollection.Size = new System.Drawing.Size(1471, 977);
             this.lvCollection.TabIndex = 6;
             this.lvCollection.UseCompatibleStateImageBehavior = false;
             this.lvCollection.View = System.Windows.Forms.View.Details;
@@ -730,10 +771,10 @@ namespace TradingCardManager
             this.pnlCollectionActions.Controls.Add(this.lblCollectionStats);
             this.pnlCollectionActions.Controls.Add(this.lblCollectionCount);
             this.pnlCollectionActions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlCollectionActions.Location = new System.Drawing.Point(0, 0);
+            this.pnlCollectionActions.Location = new System.Drawing.Point(276, 0);
             this.pnlCollectionActions.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlCollectionActions.Name = "pnlCollectionActions";
-            this.pnlCollectionActions.Size = new System.Drawing.Size(1093, 77);
+            this.pnlCollectionActions.Size = new System.Drawing.Size(1471, 77);
             this.pnlCollectionActions.TabIndex = 7;
             // 
             // btnSaveCollection
@@ -785,15 +826,15 @@ namespace TradingCardManager
             this.pnlCollectionDetail.Controls.Add(this.lblCollectionDetail);
             this.pnlCollectionDetail.Controls.Add(this.pbCollectionImage);
             this.pnlCollectionDetail.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlCollectionDetail.Location = new System.Drawing.Point(1093, 0);
+            this.pnlCollectionDetail.Location = new System.Drawing.Point(1747, 0);
             this.pnlCollectionDetail.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlCollectionDetail.Name = "pnlCollectionDetail";
-            this.pnlCollectionDetail.Size = new System.Drawing.Size(375, 793);
+            this.pnlCollectionDetail.Size = new System.Drawing.Size(375, 1054);
             this.pnlCollectionDetail.TabIndex = 8;
             // 
             // btnRemoveFromCollection
             // 
-            this.btnRemoveFromCollection.Location = new System.Drawing.Point(22, 677);
+            this.btnRemoveFromCollection.Location = new System.Drawing.Point(22, 505);
             this.btnRemoveFromCollection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnRemoveFromCollection.Name = "btnRemoveFromCollection";
             this.btnRemoveFromCollection.Size = new System.Drawing.Size(330, 35);
@@ -805,7 +846,7 @@ namespace TradingCardManager
             // lblCollectionDetail
             // 
             this.lblCollectionDetail.AutoSize = true;
-            this.lblCollectionDetail.Location = new System.Drawing.Point(22, 508);
+            this.lblCollectionDetail.Location = new System.Drawing.Point(18, 545);
             this.lblCollectionDetail.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCollectionDetail.MaximumSize = new System.Drawing.Size(330, 0);
             this.lblCollectionDetail.Name = "lblCollectionDetail";
@@ -823,14 +864,125 @@ namespace TradingCardManager
             this.pbCollectionImage.TabIndex = 2;
             this.pbCollectionImage.TabStop = false;
             // 
+            // pnlCollectionFilters
+            // 
+            this.pnlCollectionFilters.AutoScroll = true;
+            this.pnlCollectionFilters.Controls.Add(this.lblCollectionExpansion);
+            this.pnlCollectionFilters.Controls.Add(this.cboCollectionExpansion);
+            this.pnlCollectionFilters.Controls.Add(this.lblCollectionColor);
+            this.pnlCollectionFilters.Controls.Add(this.cboCollectionColor);
+            this.pnlCollectionFilters.Controls.Add(this.lblCollectionRarity);
+            this.pnlCollectionFilters.Controls.Add(this.cboCollectionRarity);
+            this.pnlCollectionFilters.Controls.Add(this.lblCollectionCardType);
+            this.pnlCollectionFilters.Controls.Add(this.cboCollectionCardType);
+            this.pnlCollectionFilters.Controls.Add(this.btnApplyCollectionFilters);
+            this.pnlCollectionFilters.Controls.Add(this.btnClearCollectionFilters);
+            this.pnlCollectionFilters.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnlCollectionFilters.Location = new System.Drawing.Point(0, 0);
+            this.pnlCollectionFilters.Name = "pnlCollectionFilters";
+            this.pnlCollectionFilters.Size = new System.Drawing.Size(276, 1054);
+            this.pnlCollectionFilters.TabIndex = 9;
+            // 
+            // lblCollectionExpansion
+            // 
+            this.lblCollectionExpansion.AutoSize = true;
+            this.lblCollectionExpansion.Location = new System.Drawing.Point(12, 8);
+            this.lblCollectionExpansion.Name = "lblCollectionExpansion";
+            this.lblCollectionExpansion.Size = new System.Drawing.Size(87, 20);
+            this.lblCollectionExpansion.TabIndex = 0;
+            this.lblCollectionExpansion.Text = "Expansion:";
+            // 
+            // cboCollectionExpansion
+            // 
+            this.cboCollectionExpansion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCollectionExpansion.FormattingEnabled = true;
+            this.cboCollectionExpansion.Location = new System.Drawing.Point(12, 32);
+            this.cboCollectionExpansion.Name = "cboCollectionExpansion";
+            this.cboCollectionExpansion.Size = new System.Drawing.Size(257, 28);
+            this.cboCollectionExpansion.TabIndex = 1;
+            // 
+            // lblCollectionColor
+            // 
+            this.lblCollectionColor.AutoSize = true;
+            this.lblCollectionColor.Location = new System.Drawing.Point(12, 65);
+            this.lblCollectionColor.Name = "lblCollectionColor";
+            this.lblCollectionColor.Size = new System.Drawing.Size(50, 20);
+            this.lblCollectionColor.TabIndex = 2;
+            this.lblCollectionColor.Text = "Color:";
+            // 
+            // cboCollectionColor
+            // 
+            this.cboCollectionColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCollectionColor.FormattingEnabled = true;
+            this.cboCollectionColor.Location = new System.Drawing.Point(12, 88);
+            this.cboCollectionColor.Name = "cboCollectionColor";
+            this.cboCollectionColor.Size = new System.Drawing.Size(257, 28);
+            this.cboCollectionColor.TabIndex = 3;
+            // 
+            // lblCollectionRarity
+            // 
+            this.lblCollectionRarity.AutoSize = true;
+            this.lblCollectionRarity.Location = new System.Drawing.Point(12, 124);
+            this.lblCollectionRarity.Name = "lblCollectionRarity";
+            this.lblCollectionRarity.Size = new System.Drawing.Size(54, 20);
+            this.lblCollectionRarity.TabIndex = 4;
+            this.lblCollectionRarity.Text = "Rarity:";
+            // 
+            // cboCollectionRarity
+            // 
+            this.cboCollectionRarity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCollectionRarity.FormattingEnabled = true;
+            this.cboCollectionRarity.Location = new System.Drawing.Point(12, 147);
+            this.cboCollectionRarity.Name = "cboCollectionRarity";
+            this.cboCollectionRarity.Size = new System.Drawing.Size(257, 28);
+            this.cboCollectionRarity.TabIndex = 5;
+            // 
+            // lblCollectionCardType
+            // 
+            this.lblCollectionCardType.AutoSize = true;
+            this.lblCollectionCardType.Location = new System.Drawing.Point(12, 183);
+            this.lblCollectionCardType.Name = "lblCollectionCardType";
+            this.lblCollectionCardType.Size = new System.Drawing.Size(47, 20);
+            this.lblCollectionCardType.TabIndex = 6;
+            this.lblCollectionCardType.Text = "Type:";
+            // 
+            // cboCollectionCardType
+            // 
+            this.cboCollectionCardType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCollectionCardType.FormattingEnabled = true;
+            this.cboCollectionCardType.Location = new System.Drawing.Point(12, 206);
+            this.cboCollectionCardType.Name = "cboCollectionCardType";
+            this.cboCollectionCardType.Size = new System.Drawing.Size(257, 28);
+            this.cboCollectionCardType.TabIndex = 7;
+            // 
+            // btnApplyCollectionFilters
+            // 
+            this.btnApplyCollectionFilters.Location = new System.Drawing.Point(12, 240);
+            this.btnApplyCollectionFilters.Name = "btnApplyCollectionFilters";
+            this.btnApplyCollectionFilters.Size = new System.Drawing.Size(116, 38);
+            this.btnApplyCollectionFilters.TabIndex = 8;
+            this.btnApplyCollectionFilters.Text = "Apply Filters";
+            this.btnApplyCollectionFilters.UseVisualStyleBackColor = true;
+            this.btnApplyCollectionFilters.Click += new System.EventHandler(this.btnApplyCollectionFilters_Click);
+            // 
+            // btnClearCollectionFilters
+            // 
+            this.btnClearCollectionFilters.Location = new System.Drawing.Point(149, 240);
+            this.btnClearCollectionFilters.Name = "btnClearCollectionFilters";
+            this.btnClearCollectionFilters.Size = new System.Drawing.Size(120, 38);
+            this.btnClearCollectionFilters.TabIndex = 9;
+            this.btnClearCollectionFilters.Text = "Clear Filters";
+            this.btnClearCollectionFilters.UseVisualStyleBackColor = true;
+            this.btnClearCollectionFilters.Click += new System.EventHandler(this.btnClearCollectionFilters_Click);
+            // 
             // menuStrip
             // 
+            this.menuStrip.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
             this.menuStrip.Size = new System.Drawing.Size(2130, 35);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
@@ -921,6 +1073,8 @@ namespace TradingCardManager
             this.pnlCollectionDetail.ResumeLayout(false);
             this.pnlCollectionDetail.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbCollectionImage)).EndInit();
+            this.pnlCollectionFilters.ResumeLayout(false);
+            this.pnlCollectionFilters.PerformLayout();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -945,6 +1099,56 @@ namespace TradingCardManager
             RefreshCollectionView();
         }
 
+        private void btnApplyCollectionFilters_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+
+                // Get selected filter values
+                collectionExpansionFilter = cboCollectionExpansion.SelectedItem.ToString();
+                collectionColorFilter = cboCollectionColor.SelectedItem.ToString();
+                collectionRarityFilter = cboCollectionRarity.SelectedItem.ToString();
+                collectionCardTypeFilter = cboCollectionCardType.SelectedItem.ToString();
+
+                // Refresh the collection view with filters
+                RefreshCollectionView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error applying collection filters: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void btnClearCollectionFilters_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Reset filter dropdowns
+                cboCollectionExpansion.SelectedIndex = 0;
+                cboCollectionColor.SelectedIndex = 0;
+                cboCollectionRarity.SelectedIndex = 0;
+                cboCollectionCardType.SelectedIndex = 0;
+
+                // Clear filter variables
+                collectionExpansionFilter = "";
+                collectionColorFilter = "";
+                collectionRarityFilter = "";
+                collectionCardTypeFilter = "";
+
+                // Refresh the collection view without filters
+                RefreshCollectionView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error clearing collection filters: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Auto-refresh collection view when switching to the collection tab
@@ -957,126 +1161,166 @@ namespace TradingCardManager
 
         private void PopulateFilterDropdowns()
         {
-            // Card Types
-            var cardTypeChoices = new List<string>
-            {
-                "",
-                "Rule",
-                "Character",
-                "Climax",
-                "Event"
-            };
-
-            // Rarity
-            var rarityChoices = new List<string>
-            {
-                "",
-                "TD ", "PR ", "SR ", "RR ", "SP ", "R ", "RRR ", "U ", "C ", "CR ", "CC ", "XR ",
-                "RR ", "SSP ", "μR ", "R ", "U ", "C ", "PPR ", "SPM ", "SEC ", "GGR ", "HR ",
-                "BDR ", "STR ", "DD ", "JJR ", "FBR ", "KR ", "SSP ", "OFR ", "HYR ", "RBR ",
-                "PFR ", "RTR ", "TRV ", "TTR ", "N ", "HLP ", "MDR ", "DSR ", "PS ", "ATR ",
-                "SCC ", "OFR ", "SPYR "
-            };
-
-            // Level
-            var levelChoices = new List<string>
-            {
-                "",
-                "0", "1", "2", "3"
-            };
-
-            // Soul
-            var soulChoices = new List<string>
-            {
-                "",
-                "0", "1", "2", "3"
-            };
-
-            // Power
-            var powerChoices = new List<string>
-            {
-                "",
-                "500", "1000", "1500", "2000", "2500", "3000", "3500", "4000", "4500", "5000",
-                "5500", "6000", "6500", "7000", "7500", "8000", "8500", "9000", "9500", "10000"
-            };
-
-            // Trigger
-            var triggerChoices = new List<string>
-            {
-                "",
-                "Soul+1", "Soul+2", "Pool", "Comeback", "Return", "Draw",
-                "Treasure", "Shot", "Gate", "Choice", "Standby"
-            };
-
-            // Clear all dropdowns before populating
-            cboExpansion.Items.Clear();
-            cboColor.Items.Clear();
-            cboRarity.Items.Clear();
-            cboCardType.Items.Clear();
-            cboLevel.Items.Clear();
-            cboCost.Items.Clear();
-            cboTrigger.Items.Clear();
-            cboSide.Items.Clear();
-
-            // Add static choices
-            foreach (var type in cardTypeChoices)
-                cboCardType.Items.Add(type);
-
-            foreach (var rarity in rarityChoices)
-                cboRarity.Items.Add(rarity);
-
-            foreach (var level in levelChoices)
-                cboLevel.Items.Add(level);
-
-            foreach (var cost in powerChoices) // Using power choices for cost
-                cboCost.Items.Add(cost);
-
-            foreach (var trigger in triggerChoices)
-                cboTrigger.Items.Add(trigger);
-
-            // Add the empty item first
-            cboExpansion.Items.Add("");
-            cboColor.Items.Add("");
-            cboSide.Items.Add("");
-
-            // Get values from database for completeness
             try
             {
+                // Card Types
+                var cardTypeChoices = new List<string>
+        {
+            "",
+            "Rule",
+            "Character",
+            "Climax",
+            "Event"
+        };
+
+                // Rarity
+                var rarityChoices = new List<string>
+        {
+            "",
+            "TD", "PR", "SR", "RR", "SP", "R", "RRR", "U", "C", "CR", "CC", "XR",
+            "RR", "SSP", "μR", "R", "U", "C", "PPR", "SPM", "SEC", "GGR", "HR",
+            "BDR", "STR", "DD", "JJR", "FBR", "KR", "SSP", "OFR", "HYR", "RBR",
+            "PFR", "RTR", "TRV", "TTR", "N", "HLP", "MDR", "DSR", "PS", "ATR",
+            "SCC", "OFR", "SPYR"
+        };
+
+                // Level
+                var levelChoices = new List<string>
+        {
+            "",
+            "0", "1", "2", "3"
+        };
+
+                // Soul
+                var soulChoices = new List<string>
+        {
+            "",
+            "0", "1", "2", "3"
+        };
+
+                // Power
+                var powerChoices = new List<string>
+        {
+            "",
+            "500", "1000", "1500", "2000", "2500", "3000", "3500", "4000", "4500", "5000",
+            "5500", "6000", "6500", "7000", "7500", "8000", "8500", "9000", "9500", "10000"
+        };
+
+                // Trigger
+                var triggerChoices = new List<string>
+        {
+            "",
+            "Soul+1", "Soul+2", "Pool", "Comeback", "Return", "Draw",
+            "Treasure", "Shot", "Gate", "Choice", "Standby"
+        };
+
+                // Clear all dropdowns before populating
+                cboExpansion.Items.Clear();
+                cboColor.Items.Clear();
+                cboRarity.Items.Clear();
+                cboCardType.Items.Clear();
+                cboLevel.Items.Clear();
+                cboCost.Items.Clear();
+                cboTrigger.Items.Clear();
+                cboSide.Items.Clear();
+
+                // Clear collection filters too
+                cboCollectionExpansion.Items.Clear();
+                cboCollectionColor.Items.Clear();
+                cboCollectionRarity.Items.Clear();
+                cboCollectionCardType.Items.Clear();
+
+                // Add empty item first for all dropdowns
+                cboExpansion.Items.Add("");
+                cboColor.Items.Add("");
+                cboSide.Items.Add("");
+                cboCollectionExpansion.Items.Add("");
+                cboCollectionColor.Items.Add("");
+                cboCollectionRarity.Items.Add("");
+                cboCollectionCardType.Items.Add("");
+
+                // Add static choices for card type
+                foreach (var type in cardTypeChoices)
+                {
+                    if (!cboCardType.Items.Contains(type))
+                        cboCardType.Items.Add(type);
+
+                    if (!cboCollectionCardType.Items.Contains(type))
+                        cboCollectionCardType.Items.Add(type);
+                }
+
+                // Add static choices for rarity
+                foreach (var rarity in rarityChoices)
+                {
+                    if (!cboRarity.Items.Contains(rarity))
+                        cboRarity.Items.Add(rarity);
+
+                    if (!cboCollectionRarity.Items.Contains(rarity))
+                        cboCollectionRarity.Items.Add(rarity);
+                }
+
+                // Add static choices for level
+                foreach (var level in levelChoices)
+                    if (!cboLevel.Items.Contains(level))
+                        cboLevel.Items.Add(level);
+
+                // Add static choices for cost/power
+                foreach (var cost in powerChoices)
+                    if (!cboCost.Items.Contains(cost))
+                        cboCost.Items.Add(cost);
+
+                // Add static choices for trigger
+                foreach (var trigger in triggerChoices)
+                    if (!cboTrigger.Items.Contains(trigger))
+                        cboTrigger.Items.Add(trigger);
+
+                // Get values from database
                 List<string> expansions = dbHelper.GetAllExpansions();
                 foreach (var expansion in expansions)
                 {
-                    if (!cboExpansion.Items.Contains(expansion))
+                    if (!string.IsNullOrWhiteSpace(expansion) && !cboExpansion.Items.Contains(expansion))
+                    {
                         cboExpansion.Items.Add(expansion);
+                        cboCollectionExpansion.Items.Add(expansion);
+                    }
                 }
 
                 List<string> colors = dbHelper.GetAllColors();
                 foreach (var color in colors)
                 {
-                    if (!cboColor.Items.Contains(color))
+                    if (!string.IsNullOrWhiteSpace(color) && !cboColor.Items.Contains(color))
+                    {
                         cboColor.Items.Add(color);
+                        cboCollectionColor.Items.Add(color);
+                    }
                 }
 
                 List<string> sides = dbHelper.GetAllSides();
                 foreach (var side in sides)
                 {
-                    if (!cboSide.Items.Contains(side))
+                    if (!string.IsNullOrWhiteSpace(side) && !cboSide.Items.Contains(side))
                         cboSide.Items.Add(side);
                 }
+
+                // Select empty items by default for all dropdowns
+                cboExpansion.SelectedIndex = 0;
+                cboColor.SelectedIndex = 0;
+                cboRarity.SelectedIndex = 0;
+                cboCardType.SelectedIndex = 0;
+                cboLevel.SelectedIndex = 0;
+                cboCost.SelectedIndex = 0;
+                cboTrigger.SelectedIndex = 0;
+                cboSide.SelectedIndex = 0;
+
+                cboCollectionExpansion.SelectedIndex = 0;
+                cboCollectionColor.SelectedIndex = 0;
+                cboCollectionRarity.SelectedIndex = 0;
+                cboCollectionCardType.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error populating dropdowns: {ex.Message}");
+                MessageBox.Show($"Error populating filter dropdowns: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            // Select empty items by default
-            cboExpansion.SelectedIndex = 0;
-            cboColor.SelectedIndex = 0;
-            cboRarity.SelectedIndex = 0;
-            cboCardType.SelectedIndex = 0;
-            cboLevel.SelectedIndex = 0;
-            cboCost.SelectedIndex = 0;
-            cboTrigger.SelectedIndex = 0;
-            cboSide.SelectedIndex = 0;
         }
 
         private void txtSearchTerm_KeyDown(object sender, KeyEventArgs e)
@@ -1498,54 +1742,91 @@ namespace TradingCardManager
 
         private void RefreshCollectionView()
         {
-            // Save current selection if any
-            string selectedCardId = null;
-            if (lvCollection.SelectedItems.Count > 0)
+            try
             {
-                Card selectedCard = (Card)lvCollection.SelectedItems[0].Tag;
-                selectedCardId = selectedCard.CardId;
-            }
-
-            lvCollection.Items.Clear();
-
-            List<Card> collectionCards = collectionHelper.GetCardsInCollection(currentCollection);
-
-            foreach (var card in collectionCards)
-            {
-                ListViewItem item = new ListViewItem(card.Name);
-                item.SubItems.Add(card.Expansion);
-                item.SubItems.Add(card.Rarity);
-                item.SubItems.Add(card.Color);
-                item.SubItems.Add(card.QuantityInCollection.ToString());
-                item.Tag = card;
-
-                lvCollection.Items.Add(item);
-
-                // Restore selection if this was the previously selected card
-                if (selectedCardId != null && card.CardId == selectedCardId)
+                // Save current selection if any
+                string selectedCardId = null;
+                if (lvCollection.SelectedItems.Count > 0)
                 {
-                    item.Selected = true;
-                    item.EnsureVisible();
+                    Card selectedCard = (Card)lvCollection.SelectedItems[0].Tag;
+                    selectedCardId = selectedCard.CardId;
                 }
-            }
 
-            if (lvCollection.SelectedItems.Count == 0)
+                lvCollection.Items.Clear();
+
+                // Get all cards in the collection
+                List<Card> collectionCards = collectionHelper.GetCardsInCollection(currentCollection);
+
+                // Apply filters if any are set
+                if (!string.IsNullOrEmpty(collectionExpansionFilter) ||
+                    !string.IsNullOrEmpty(collectionColorFilter) ||
+                    !string.IsNullOrEmpty(collectionRarityFilter) ||
+                    !string.IsNullOrEmpty(collectionCardTypeFilter))
+                {
+                    filteredCollectionCards = collectionCards.Where(card =>
+                        (string.IsNullOrEmpty(collectionExpansionFilter) || card.Expansion == collectionExpansionFilter) &&
+                        (string.IsNullOrEmpty(collectionColorFilter) || card.Color == collectionColorFilter) &&
+                        (string.IsNullOrEmpty(collectionRarityFilter) || card.Rarity == collectionRarityFilter) &&
+                        (string.IsNullOrEmpty(collectionCardTypeFilter) || card.CardType == collectionCardTypeFilter)
+                    ).ToList();
+                }
+                else
+                {
+                    // No filters, show all cards
+                    filteredCollectionCards = collectionCards;
+                }
+
+                // Display the filtered cards
+                foreach (var card in filteredCollectionCards)
+                {
+                    ListViewItem item = new ListViewItem(card.Name);
+                    item.SubItems.Add(card.Expansion);
+                    item.SubItems.Add(card.Rarity);
+                    item.SubItems.Add(card.Color);
+                    item.SubItems.Add(card.QuantityInCollection.ToString());
+                    item.Tag = card;
+
+                    lvCollection.Items.Add(item);
+
+                    // Restore selection if this was the previously selected card
+                    if (selectedCardId != null && card.CardId == selectedCardId)
+                    {
+                        item.Selected = true;
+                        item.EnsureVisible();
+                    }
+                }
+
+                if (lvCollection.SelectedItems.Count == 0)
+                {
+                    lblCollectionDetail.Text = "Card Details:";
+                    pbCollectionImage.Image = null;
+                }
+
+                // Update collection count
+                UpdateCollectionStats();
+            }
+            catch (Exception ex)
             {
-                lblCollectionDetail.Text = "Card Details:";
-                pbCollectionImage.Image = null;
+                MessageBox.Show($"Error refreshing collection: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            // Update collection count
-            UpdateCollectionStats();
         }
 
         private void UpdateCollectionStats()
         {
             int totalCards = currentCollection.Cards.Sum(c => c.Quantity);
             int uniqueCards = currentCollection.Cards.Count;
+            int displayedCards = filteredCollectionCards?.Count ?? 0;
 
             lblCollectionStats.Text = $"Cards in collection: {totalCards} ({uniqueCards} unique)";
-            lblCollectionCount.Text = $"Collection: {uniqueCards} unique cards ({totalCards} total)";
+
+            if (displayedCards != uniqueCards && displayedCards > 0)
+            {
+                lblCollectionCount.Text = $"Displayed: {displayedCards} of {uniqueCards} cards";
+            }
+            else
+            {
+                lblCollectionCount.Text = $"Collection: {uniqueCards} unique cards ({totalCards} total)";
+            }
         }
 
         private void lvCollection_SelectedIndexChanged(object sender, EventArgs e)

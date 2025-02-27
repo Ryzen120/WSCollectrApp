@@ -206,7 +206,11 @@ namespace TradingCardManager
                         {
                             while (reader.Read())
                             {
-                                values.Add(reader[columnName].ToString());
+                                string value = reader[columnName].ToString().Trim();
+                                if (!string.IsNullOrEmpty(value) && !values.Contains(value))
+                                {
+                                    values.Add(value);
+                                }
                             }
                         }
                     }
