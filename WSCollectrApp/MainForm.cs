@@ -149,6 +149,7 @@ namespace TradingCardManager
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabSearch = new System.Windows.Forms.TabPage();
             this.lvSearchResults = new System.Windows.Forms.ListView();
@@ -203,10 +204,6 @@ namespace TradingCardManager
             this.btnLoadCollection = new System.Windows.Forms.Button();
             this.lblCollectionStats = new System.Windows.Forms.Label();
             this.lblCollectionCount = new System.Windows.Forms.Label();
-            this.pnlCollectionDetail = new System.Windows.Forms.Panel();
-            this.btnRemoveFromCollection = new System.Windows.Forms.Button();
-            this.lblCollectionDetail = new System.Windows.Forms.Label();
-            this.pbCollectionImage = new System.Windows.Forms.PictureBox();
             this.pnlCollectionFilters = new System.Windows.Forms.Panel();
             this.lblCollectionExpansion = new System.Windows.Forms.Label();
             this.cboCollectionExpansion = new System.Windows.Forms.ComboBox();
@@ -218,6 +215,10 @@ namespace TradingCardManager
             this.cboCollectionCardType = new System.Windows.Forms.ComboBox();
             this.btnApplyCollectionFilters = new System.Windows.Forms.Button();
             this.btnClearCollectionFilters = new System.Windows.Forms.Button();
+            this.pnlCollectionDetail = new System.Windows.Forms.Panel();
+            this.btnRemoveFromCollection = new System.Windows.Forms.Button();
+            this.lblCollectionDetail = new System.Windows.Forms.Label();
+            this.pbCollectionImage = new System.Windows.Forms.PictureBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newCollectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -235,9 +236,9 @@ namespace TradingCardManager
             ((System.ComponentModel.ISupportInitialize)(this.pbCardImage)).BeginInit();
             this.tabCollection.SuspendLayout();
             this.pnlCollectionActions.SuspendLayout();
+            this.pnlCollectionFilters.SuspendLayout();
             this.pnlCollectionDetail.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbCollectionImage)).BeginInit();
-            this.pnlCollectionFilters.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -246,11 +247,11 @@ namespace TradingCardManager
             this.tabControl.Controls.Add(this.tabSearch);
             this.tabControl.Controls.Add(this.tabCollection);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.Location = new System.Drawing.Point(0, 35);
+            this.tabControl.Location = new System.Drawing.Point(0, 33);
             this.tabControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(2130, 1087);
+            this.tabControl.Size = new System.Drawing.Size(2304, 1109);
             this.tabControl.TabIndex = 0;
             this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             // 
@@ -264,7 +265,7 @@ namespace TradingCardManager
             this.tabSearch.Location = new System.Drawing.Point(4, 29);
             this.tabSearch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabSearch.Name = "tabSearch";
-            this.tabSearch.Size = new System.Drawing.Size(2122, 1054);
+            this.tabSearch.Size = new System.Drawing.Size(2296, 1076);
             this.tabSearch.TabIndex = 0;
             this.tabSearch.Text = "Search Cards";
             // 
@@ -283,7 +284,7 @@ namespace TradingCardManager
             this.lvSearchResults.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lvSearchResults.MultiSelect = false;
             this.lvSearchResults.Name = "lvSearchResults";
-            this.lvSearchResults.Size = new System.Drawing.Size(1447, 932);
+            this.lvSearchResults.Size = new System.Drawing.Size(1621, 954);
             this.lvSearchResults.TabIndex = 3;
             this.lvSearchResults.UseCompatibleStateImageBehavior = false;
             this.lvSearchResults.View = System.Windows.Forms.View.Details;
@@ -325,7 +326,7 @@ namespace TradingCardManager
             this.pnlSearch.Location = new System.Drawing.Point(300, 0);
             this.pnlSearch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlSearch.Name = "pnlSearch";
-            this.pnlSearch.Size = new System.Drawing.Size(1447, 77);
+            this.pnlSearch.Size = new System.Drawing.Size(1621, 77);
             this.pnlSearch.TabIndex = 4;
             // 
             // lblSearchTerm
@@ -403,10 +404,10 @@ namespace TradingCardManager
             this.pnlPagination.Controls.Add(this.btnNextPage);
             this.pnlPagination.Controls.Add(this.lblPageInfo);
             this.pnlPagination.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlPagination.Location = new System.Drawing.Point(300, 1009);
+            this.pnlPagination.Location = new System.Drawing.Point(300, 1031);
             this.pnlPagination.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlPagination.Name = "pnlPagination";
-            this.pnlPagination.Size = new System.Drawing.Size(1447, 45);
+            this.pnlPagination.Size = new System.Drawing.Size(1621, 45);
             this.pnlPagination.TabIndex = 5;
             // 
             // lblResultCount
@@ -476,7 +477,7 @@ namespace TradingCardManager
             this.pnlSearchFilters.Location = new System.Drawing.Point(0, 0);
             this.pnlSearchFilters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlSearchFilters.Name = "pnlSearchFilters";
-            this.pnlSearchFilters.Size = new System.Drawing.Size(300, 1054);
+            this.pnlSearchFilters.Size = new System.Drawing.Size(300, 1076);
             this.pnlSearchFilters.TabIndex = 6;
             // 
             // lblExpansion
@@ -668,10 +669,10 @@ namespace TradingCardManager
             this.pnlCardDetail.Controls.Add(this.lblCardDetail);
             this.pnlCardDetail.Controls.Add(this.pbCardImage);
             this.pnlCardDetail.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlCardDetail.Location = new System.Drawing.Point(1747, 0);
+            this.pnlCardDetail.Location = new System.Drawing.Point(1921, 0);
             this.pnlCardDetail.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlCardDetail.Name = "pnlCardDetail";
-            this.pnlCardDetail.Size = new System.Drawing.Size(375, 1054);
+            this.pnlCardDetail.Size = new System.Drawing.Size(375, 1076);
             this.pnlCardDetail.TabIndex = 7;
             // 
             // btnAddToCollection
@@ -715,7 +716,7 @@ namespace TradingCardManager
             this.tabCollection.Location = new System.Drawing.Point(4, 29);
             this.tabCollection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabCollection.Name = "tabCollection";
-            this.tabCollection.Size = new System.Drawing.Size(2122, 1054);
+            this.tabCollection.Size = new System.Drawing.Size(2296, 1074);
             this.tabCollection.TabIndex = 1;
             this.tabCollection.Text = "My Collection";
             // 
@@ -734,7 +735,7 @@ namespace TradingCardManager
             this.lvCollection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lvCollection.MultiSelect = false;
             this.lvCollection.Name = "lvCollection";
-            this.lvCollection.Size = new System.Drawing.Size(1471, 977);
+            this.lvCollection.Size = new System.Drawing.Size(1645, 997);
             this.lvCollection.TabIndex = 6;
             this.lvCollection.UseCompatibleStateImageBehavior = false;
             this.lvCollection.View = System.Windows.Forms.View.Details;
@@ -774,7 +775,7 @@ namespace TradingCardManager
             this.pnlCollectionActions.Location = new System.Drawing.Point(276, 0);
             this.pnlCollectionActions.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlCollectionActions.Name = "pnlCollectionActions";
-            this.pnlCollectionActions.Size = new System.Drawing.Size(1471, 77);
+            this.pnlCollectionActions.Size = new System.Drawing.Size(1645, 77);
             this.pnlCollectionActions.TabIndex = 7;
             // 
             // btnSaveCollection
@@ -819,51 +820,6 @@ namespace TradingCardManager
             this.lblCollectionCount.TabIndex = 3;
             this.lblCollectionCount.Text = "Collection: 0 cards";
             // 
-            // pnlCollectionDetail
-            // 
-            this.pnlCollectionDetail.AutoScroll = true;
-            this.pnlCollectionDetail.Controls.Add(this.btnRemoveFromCollection);
-            this.pnlCollectionDetail.Controls.Add(this.lblCollectionDetail);
-            this.pnlCollectionDetail.Controls.Add(this.pbCollectionImage);
-            this.pnlCollectionDetail.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlCollectionDetail.Location = new System.Drawing.Point(1747, 0);
-            this.pnlCollectionDetail.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pnlCollectionDetail.Name = "pnlCollectionDetail";
-            this.pnlCollectionDetail.Size = new System.Drawing.Size(375, 1054);
-            this.pnlCollectionDetail.TabIndex = 8;
-            // 
-            // btnRemoveFromCollection
-            // 
-            this.btnRemoveFromCollection.Location = new System.Drawing.Point(22, 505);
-            this.btnRemoveFromCollection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnRemoveFromCollection.Name = "btnRemoveFromCollection";
-            this.btnRemoveFromCollection.Size = new System.Drawing.Size(330, 35);
-            this.btnRemoveFromCollection.TabIndex = 0;
-            this.btnRemoveFromCollection.Text = "Remove from Collection";
-            this.btnRemoveFromCollection.UseVisualStyleBackColor = true;
-            this.btnRemoveFromCollection.Click += new System.EventHandler(this.btnRemoveFromCollection_Click);
-            // 
-            // lblCollectionDetail
-            // 
-            this.lblCollectionDetail.AutoSize = true;
-            this.lblCollectionDetail.Location = new System.Drawing.Point(18, 545);
-            this.lblCollectionDetail.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblCollectionDetail.MaximumSize = new System.Drawing.Size(330, 0);
-            this.lblCollectionDetail.Name = "lblCollectionDetail";
-            this.lblCollectionDetail.Size = new System.Drawing.Size(100, 20);
-            this.lblCollectionDetail.TabIndex = 1;
-            this.lblCollectionDetail.Text = "Card Details:";
-            // 
-            // pbCollectionImage
-            // 
-            this.pbCollectionImage.Location = new System.Drawing.Point(22, 23);
-            this.pbCollectionImage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pbCollectionImage.Name = "pbCollectionImage";
-            this.pbCollectionImage.Size = new System.Drawing.Size(330, 472);
-            this.pbCollectionImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbCollectionImage.TabIndex = 2;
-            this.pbCollectionImage.TabStop = false;
-            // 
             // pnlCollectionFilters
             // 
             this.pnlCollectionFilters.AutoScroll = true;
@@ -880,7 +836,7 @@ namespace TradingCardManager
             this.pnlCollectionFilters.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlCollectionFilters.Location = new System.Drawing.Point(0, 0);
             this.pnlCollectionFilters.Name = "pnlCollectionFilters";
-            this.pnlCollectionFilters.Size = new System.Drawing.Size(276, 1054);
+            this.pnlCollectionFilters.Size = new System.Drawing.Size(276, 1074);
             this.pnlCollectionFilters.TabIndex = 9;
             // 
             // lblCollectionExpansion
@@ -975,6 +931,51 @@ namespace TradingCardManager
             this.btnClearCollectionFilters.UseVisualStyleBackColor = true;
             this.btnClearCollectionFilters.Click += new System.EventHandler(this.btnClearCollectionFilters_Click);
             // 
+            // pnlCollectionDetail
+            // 
+            this.pnlCollectionDetail.AutoScroll = true;
+            this.pnlCollectionDetail.Controls.Add(this.btnRemoveFromCollection);
+            this.pnlCollectionDetail.Controls.Add(this.lblCollectionDetail);
+            this.pnlCollectionDetail.Controls.Add(this.pbCollectionImage);
+            this.pnlCollectionDetail.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pnlCollectionDetail.Location = new System.Drawing.Point(1921, 0);
+            this.pnlCollectionDetail.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pnlCollectionDetail.Name = "pnlCollectionDetail";
+            this.pnlCollectionDetail.Size = new System.Drawing.Size(375, 1074);
+            this.pnlCollectionDetail.TabIndex = 8;
+            // 
+            // btnRemoveFromCollection
+            // 
+            this.btnRemoveFromCollection.Location = new System.Drawing.Point(22, 505);
+            this.btnRemoveFromCollection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnRemoveFromCollection.Name = "btnRemoveFromCollection";
+            this.btnRemoveFromCollection.Size = new System.Drawing.Size(330, 35);
+            this.btnRemoveFromCollection.TabIndex = 0;
+            this.btnRemoveFromCollection.Text = "Remove from Collection";
+            this.btnRemoveFromCollection.UseVisualStyleBackColor = true;
+            this.btnRemoveFromCollection.Click += new System.EventHandler(this.btnRemoveFromCollection_Click);
+            // 
+            // lblCollectionDetail
+            // 
+            this.lblCollectionDetail.AutoSize = true;
+            this.lblCollectionDetail.Location = new System.Drawing.Point(18, 545);
+            this.lblCollectionDetail.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCollectionDetail.MaximumSize = new System.Drawing.Size(330, 0);
+            this.lblCollectionDetail.Name = "lblCollectionDetail";
+            this.lblCollectionDetail.Size = new System.Drawing.Size(100, 20);
+            this.lblCollectionDetail.TabIndex = 1;
+            this.lblCollectionDetail.Text = "Card Details:";
+            // 
+            // pbCollectionImage
+            // 
+            this.pbCollectionImage.Location = new System.Drawing.Point(22, 23);
+            this.pbCollectionImage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pbCollectionImage.Name = "pbCollectionImage";
+            this.pbCollectionImage.Size = new System.Drawing.Size(330, 472);
+            this.pbCollectionImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbCollectionImage.TabIndex = 2;
+            this.pbCollectionImage.TabStop = false;
+            // 
             // menuStrip
             // 
             this.menuStrip.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
@@ -983,7 +984,7 @@ namespace TradingCardManager
             this.fileToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(2130, 35);
+            this.menuStrip.Size = new System.Drawing.Size(2304, 33);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -1047,9 +1048,10 @@ namespace TradingCardManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2130, 1122);
+            this.ClientSize = new System.Drawing.Size(2304, 1142);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.menuStrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MinimumSize = new System.Drawing.Size(1189, 893);
@@ -1070,11 +1072,11 @@ namespace TradingCardManager
             this.tabCollection.ResumeLayout(false);
             this.pnlCollectionActions.ResumeLayout(false);
             this.pnlCollectionActions.PerformLayout();
+            this.pnlCollectionFilters.ResumeLayout(false);
+            this.pnlCollectionFilters.PerformLayout();
             this.pnlCollectionDetail.ResumeLayout(false);
             this.pnlCollectionDetail.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbCollectionImage)).EndInit();
-            this.pnlCollectionFilters.ResumeLayout(false);
-            this.pnlCollectionFilters.PerformLayout();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
