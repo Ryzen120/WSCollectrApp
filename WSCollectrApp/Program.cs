@@ -12,6 +12,7 @@ namespace TradingCardManager
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            // Check if database file exists, but don't exit if not found
 
             Application.Run(new MainForm());
         }

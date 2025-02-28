@@ -133,6 +133,7 @@ namespace TradingCardManager
             // Set default database path to user's profile folder
             string userProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             string defaultDbPath = Path.Combine(userProfilePath, "WSCards.db");
+            MessageBox.Show("DB Path: " + defaultDbPath.ToString());
 
             // Initialize database helper with default path
             dbHelper = new DatabaseHelper(defaultDbPath);
@@ -157,6 +158,7 @@ namespace TradingCardManager
 
         private void InitializeComponent()
         {
+
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabSearch = new System.Windows.Forms.TabPage();
@@ -1109,6 +1111,7 @@ namespace TradingCardManager
             // Check database connection
             if (!dbHelper.CheckConnection())
             {
+
                 // Database not found in default location, prompt to load one
                 DialogResult result = MessageBox.Show(
                     "Database not found in the default location. Would you like to select a database file?",

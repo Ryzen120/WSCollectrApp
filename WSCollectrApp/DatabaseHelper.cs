@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Windows.Forms;
 
 namespace TradingCardManager
 {
@@ -10,11 +11,22 @@ namespace TradingCardManager
 
         public DatabaseHelper(string dbFilePath)
         {
-            connectionString = $"Data Source={dbFilePath};Version=3;";
+            if (!string.IsNullOrEmpty(dbFilePath))
+            {
+                connectionString = $"Data Source={dbFilePath};Version=3;";
+            }
+            else
+            {
+                // No database loaded yet
+                connectionString = null;
+            }
         }
 
         public bool CheckConnection()
         {
+            if (string.IsNullOrEmpty(connectionString))
+                return false;
+
             try
             {
                 using (SQLiteConnection connection = new SQLiteConnection(connectionString))
@@ -23,8 +35,9 @@ namespace TradingCardManager
                     return true;
                 }
             }
-            catch
+            catch(Exception e)
             {
+                MessageBox.Show("Issues " + e.Message + e.StackTrace);
                 return false;
             }
         }
