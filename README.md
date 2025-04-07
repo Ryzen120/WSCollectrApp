@@ -4,6 +4,10 @@ Link to download deployed version:
 
 https://onedrive.live.com/?id=89304454B5A00EBA%21216915&cid=89304454B5A00EBA
 
+OR
+
+https://drive.google.com/drive/folders/1Odcw5SQGu-VFXE0H0RRf76JGrrjlFcNu?usp=drive_link
+
 To download and use, follow these steps:
 1.	Use the link and download the zip file.
 2.	Once downloaded, open the file and click extract all to your desired location, for example Documents folder.
